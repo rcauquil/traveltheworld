@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:traveltheworld/models/user.dart';
 import 'package:traveltheworld/services/auth.dart';
 
 class Home extends StatelessWidget {
@@ -6,10 +8,9 @@ class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
+    final user = Provider.of<UserModel>(context);
     
-    // final user = Provider.of<User>(context);
-
     return Scaffold(
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
@@ -28,7 +29,7 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Text('foo'),
+        child: Text(user.uid),
       ),
     );
   }

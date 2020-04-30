@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 class Authenticate extends StatelessWidget {
   Widget build(BuildContext context) {
+
+    print('AUTHHHHHHHHHHHHHHHHHHHHHH');
+
     return Container(
       child: SignIn(),
     );
