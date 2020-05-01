@@ -28,9 +28,87 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: Text(user.uid),
+      body: Navigator(
+        initialRoute: '/',
+        onGenerateRoute: Router.generateRoute,        
       ),
     );
+  }
+}
+
+class Router {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (context) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('HOME'),
+                  RaisedButton(
+                    onPressed: () => Navigator.pushNamed(context, '/dashboard'),
+                    child: Text('go to dashboard'),
+                  ),
+                  RaisedButton(
+                    onPressed: () => Navigator.pushNamed(context, '/settings'),
+                    child: Text('go to settings'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+      case '/dashboard':
+        return MaterialPageRoute(builder: (context) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('DASHBOARD'),
+                  RaisedButton(
+                    onPressed: () => Navigator.pushNamed(context, '/settings'),
+                    child: Text('go to settings'),
+                  ),
+                  RaisedButton(
+                    onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+                    child: Text('back to home'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+      case '/settings':
+        return MaterialPageRoute(builder: (context) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('SETTINGS'),
+                  RaisedButton(
+                    onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+                    child: Text('back to home'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+      default:
+        return MaterialPageRoute(builder: (_) {
+          return Scaffold(
+            body: Center(
+              child: Text('No route defined for ${settings.name}'),
+            ),
+          );
+        });
+    }
   }
 }
