@@ -1,114 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:traveltheworld/screens/placeholder/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:traveltheworld/models/user.dart';
-import 'package:traveltheworld/services/auth.dart';
 
-class Home extends StatelessWidget {
-
-  final AuthService _auth = AuthService();
-
+class Home extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {    
-    final user = Provider.of<UserModel>(context);
-    
-    return Scaffold(
-      backgroundColor: Colors.brown[50],
-      appBar: AppBar(
-        title: Text('Welcome'),
-        backgroundColor: Theme.of(context).primaryColor,
-        elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            onPressed: () async {
-              await _auth.signOut();
-            },
-            icon: Icon(Icons.exit_to_app),
-            textColor: Theme.of(context).accentColor,
-            label: Text(''),
-          )
-        ],
-      ),
-      body: Navigator(
-        initialRoute: '/',
-        onGenerateRoute: Router.generateRoute,        
-      ),
-    );
-  }
+  _HomeState createState() => _HomeState();
 }
 
-class Router {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case '/':
-        return MaterialPageRoute(builder: (context) {
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text('HOME'),
-                  RaisedButton(
-                    onPressed: () => Navigator.pushNamed(context, '/dashboard'),
-                    child: Text('go to dashboard'),
-                  ),
-                  RaisedButton(
-                    onPressed: () => Navigator.pushNamed(context, '/settings'),
-                    child: Text('go to settings'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-      case '/dashboard':
-        return MaterialPageRoute(builder: (context) {
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text('DASHBOARD'),
-                  RaisedButton(
-                    onPressed: () => Navigator.pushNamed(context, '/settings'),
-                    child: Text('go to settings'),
-                  ),
-                  RaisedButton(
-                    onPressed: () => Navigator.pushReplacementNamed(context, '/'),
-                    child: Text('back to home'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-      case '/settings':
-        return MaterialPageRoute(builder: (context) {
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text('SETTINGS'),
-                  RaisedButton(
-                    onPressed: () => Navigator.pushReplacementNamed(context, '/'),
-                    child: Text('back to home'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-      default:
-        return MaterialPageRoute(builder: (_) {
-          return Scaffold(
-            body: Center(
-              child: Text('No route defined for ${settings.name}'),
-            ),
-          );
-        });
+class _HomeState extends State<Home> {  
+  int _currentBarIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final UserModel user = Provider.of<UserModel>(context, listen: false);
+
+    final List<Widget> _children = [
+      PlaceholderWidget(Colors.green, 'Home'),
+      PlaceholderWidget(Colors.yellow, 'Message'),
+      PlaceholderWidget(Colors.orange, 'Warning'),
+      PlaceholderWidget(Colors.red, user.uid)
+    ];
+
+    void _onItemTap(int index) {
+      setState(() {
+        if (_currentBarIndex != index) {
+          _currentBarIndex = index;
+        }
+      });
     }
+
+    return Scaffold(
+      body: _children[_currentBarIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.black87,
+        unselectedItemColor: Colors.black26,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        currentIndex: _currentBarIndex,
+        onTap: _onItemTap,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            title: Text('Map'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.devices_other),
+            title: Text('Devices'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.warning),
+            title: Text('Alerts')
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('Settings')
+          ),
+        ],
+      ),
+    );
   }
 }

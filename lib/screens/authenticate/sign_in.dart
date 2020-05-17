@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:traveltheworld/models/user.dart';
 import 'package:traveltheworld/services/auth.dart';
 
 class SignIn extends StatelessWidget {
@@ -16,7 +17,7 @@ class SignIn extends StatelessWidget {
             child: RaisedButton(
               child: Text('Google Sign In'),
               onPressed: () async {
-                dynamic user = await _auth.signInGoogle();
+                final UserModel user = await _auth.signInGoogle();
 
                 if (user == null) {
                   print('error signing in');
