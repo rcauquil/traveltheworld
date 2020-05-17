@@ -16,9 +16,9 @@ class _HomeState extends State<Home> {
     final UserModel user = Provider.of<UserModel>(context, listen: false);
 
     final List<Widget> _children = [
-      PlaceholderWidget(Colors.green, 'Home'),
-      PlaceholderWidget(Colors.yellow, 'Message'),
-      PlaceholderWidget(Colors.orange, 'Warning'),
+      PlaceholderWidget(Colors.green, 'Map'),
+      PlaceholderWidget(Colors.yellow, 'Devices'),
+      PlaceholderWidget(Colors.orange, 'Alerts'),
       PlaceholderWidget(Colors.red, user.uid)
     ];
 
