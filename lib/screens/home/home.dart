@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:traveltheworld/screens/placeholder/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:traveltheworld/models/user.dart';
+import 'package:traveltheworld/services/auth.dart';
+import 'package:traveltheworld/screens/placeholder/placeholder.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {  
+  final AuthService _auth = AuthService();
   int _currentBarIndex = 0;
 
   @override
@@ -16,10 +18,21 @@ class _HomeState extends State<Home> {
     final UserModel user = Provider.of<UserModel>(context, listen: false);
 
     final List<Widget> _children = [
-      PlaceholderWidget(Colors.green, 'Map'),
-      PlaceholderWidget(Colors.yellow, 'Devices'),
-      PlaceholderWidget(Colors.orange, 'Alerts'),
-      PlaceholderWidget(Colors.red, user.uid)
+      PlaceholderWidget(Colors.green, Text('Map')),
+      PlaceholderWidget(Colors.yellow, Text('Devices')),
+      PlaceholderWidget(Colors.orange, Text('Alerts')),
+      PlaceholderWidget(Colors.red, Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(user.uid),
+          SizedBox(height: 20),
+          RaisedButton(
+            onPressed: () async => await _auth.signOut(),
+            child: Text('Signout'),
+          ),
+        ]
+      ))
     ];
 
     void _onItemTap(int index) {
